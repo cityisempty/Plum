@@ -1,0 +1,53 @@
+:root {
+  --paper: #f3ebda;
+  --paper-deep: #e8dcc4;
+  --ink: #1c1915;
+  --ink-soft: #6b6358;
+  --ink-faint: #9a9186;
+  --cinnabar: #b3332a;
+  --cinnabar-deep: #8c241d;
+  --cinnabar-soft: rgba(179, 51, 42, 0.12);
+  --line: rgba(28, 25, 21, 0.14);
+  --shadow: rgba(28, 25, 21, 0.08);
+  /* Prefer fonts already installed on the device so the first paint does not
+     depend on Google Fonts or an overseas CDN. */
+  --font-display: "LXGW WenKai", "霞鹜文楷", "Kaiti SC", "STKaiti", "KaiTi", serif;
+  --font-body: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+  --font-seal: "Kaiti SC", "STKaiti", "KaiTi", cursive;
+  --max: 720px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-body);
+  background: var(--paper);
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea {
+  font-family: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(179, 51, 42, 0.22);
+}

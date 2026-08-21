@@ -1,0 +1,11 @@
+{
+  "name": "plum",
+  "private": true,
+  "version": "0.1.0",
+  "description": "数字投射解码SPA",
+  "scripts": {
+    "dev": "npm run dev --prefix server & npm run dev --prefix client; wait",
+    "parse-docs": "node server/scripts/parse-docx.mjs",
+    "test": "npm run test --prefix server"
+  }
+}
