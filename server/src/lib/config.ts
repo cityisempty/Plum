@@ -30,6 +30,7 @@ export const config = {
   wechatAppId: process.env.WECHAT_APP_ID ?? "",
   wechatAppSecret: process.env.WECHAT_APP_SECRET ?? "",
   wechatMock: (process.env.WECHAT_MOCK ?? "true") === "true",
+  wechatServiceAccountCallbackUrl: process.env.WECHAT_SERVICE_ACCOUNT_CALLBACK_URL ?? "",
   publicBaseUrl: process.env.PUBLIC_BASE_URL ?? "http://localhost:5173",
   modelPriority: process.env.MODEL_PRIORITY ?? "gemini,openai,custom",
   geminiApiKey: process.env.GEMINI_API_KEY ?? "",

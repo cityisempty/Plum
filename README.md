@@ -29,6 +29,8 @@ cd client && npm install && npm run dev
 WECHAT_MOCK=false
 WECHAT_APP_ID=wx........
 WECHAT_APP_SECRET=........
+# 多网站共用统一服务号认证时配置；不配置则使用 PUBLIC_BASE_URL 的站内回调
+WECHAT_SERVICE_ACCOUNT_CALLBACK_URL=http://bid.xinlioa.com/index.php?app_name=plum
 PUBLIC_BASE_URL=https://plum.example.com
 COOKIE_SECURE=true
 REGISTER_BONUS_POINTS=100
@@ -36,7 +38,8 @@ JWT_SECRET=（长随机串）
 ```
 
 4. Nginx 把 `/api` 反代到 Node，SPA 与 API **同域**，这样授权回调 `https://域名/api/auth/wechat/callback` 才能种下登录 Cookie。
-5. 授权回调完整地址为：`{PUBLIC_BASE_URL}/api/auth/wechat/callback`（须能被微信访问）
+5. 默认授权回调完整地址为：`{PUBLIC_BASE_URL}/api/auth/wechat/callback`（须能被微信访问）
+6. 如果多个网站共用统一认证服务，配置 `WECHAT_SERVICE_ACCOUNT_CALLBACK_URL` 后，微信授权的 `redirect_uri` 会优先使用该地址，例如：`http://bid.xinlioa.com/index.php?app_name=plum`
 
 本地 mock 走 `GET /api/auth/wechat` → 立即回调建档。同一 `openid` 再次登录不会重复赠点。
 

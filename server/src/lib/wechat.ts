@@ -35,8 +35,14 @@ export function parseOauthState(state: string): string {
   return r;
 }
 
+export function buildWechatRedirectUri(publicBaseUrl: string, serviceAccountCallbackUrl = ""): string {
+  const callbackUrl = serviceAccountCallbackUrl.trim();
+  if (callbackUrl) return callbackUrl;
+  return `${publicBaseUrl.replace(/\/$/, "")}/api/auth/wechat/callback`;
+}
+
 export function authorizeUrl(state: string): string {
-  const redirectUri = encodeURIComponent(`${config.publicBaseUrl.replace(/\/$/, "")}/api/auth/wechat/callback`);
+  const redirectUri = encodeURIComponent(buildWechatRedirectUri(config.publicBaseUrl, config.wechatServiceAccountCallbackUrl));
   const appId = config.wechatAppId;
   return (
     `https://open.weixin.qq.com/connect/oauth2/authorize` +
