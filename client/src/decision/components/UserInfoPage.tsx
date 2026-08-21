@@ -309,28 +309,28 @@ export const UserInfoPage: React.FC<UserInfoPageProps> = ({
     const isDark = theme.id === 'modern';
 
     return (
-        <main className={`flex-1 flex items-center justify-center p-6 ${isDark ? 'bg-slate-900' : 'bg-white'}`}>
-            <div className="w-full max-w-md space-y-8">
+        <main className={`flex-1 flex items-start sm:items-center justify-center px-4 py-3 sm:p-6 overflow-y-auto no-scrollbar ${isDark ? 'bg-slate-900' : 'bg-white'}`}>
+            <div className="w-full max-w-md space-y-4 sm:space-y-8">
                 {/* 标题 */}
-                <div className="text-center space-y-2">
-                    <h2 className={`text-3xl font-light tracking-wide ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <div className="text-center space-y-1 sm:space-y-2">
+                    <h2 className={`text-2xl sm:text-3xl font-light tracking-normal sm:tracking-wide ${isDark ? 'text-white' : 'text-slate-900'}`}>
                         {isReassessment ? '重新评估' : '开始你的决策之旅'}
                     </h2>
-                    <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                    <p className={`text-xs sm:text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
                         {isReassessment ? '请输入新的决策主题' : '请先告诉我们关于你'}
                     </p>
                 </div>
 
                 {/* 性别选择 */}
                 <div>
-                    <label className={`block text-sm font-medium mb-3 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                    <label className={`block text-xs sm:text-sm font-medium mb-2 sm:mb-3 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
                         性别
                     </label>
-                    <div className="flex gap-4 justify-center">
+                    <div className="flex gap-3 sm:gap-4 justify-center">
                         {/* 男性 */}
                         <div
                             onClick={() => setGender('male')}
-                            className={`cursor-pointer transition-all duration-300 rounded-lg p-3 ${gender === 'male'
+                            className={`cursor-pointer transition-all duration-300 rounded-lg p-2 sm:p-3 ${gender === 'male'
                                 ? isDark
                                     ? 'border-4 border-indigo-400 bg-indigo-500/30 shadow-lg shadow-indigo-500/50'
                                     : 'border-4 border-blue-600 bg-blue-100 shadow-lg shadow-blue-500/30'
@@ -342,9 +342,9 @@ export const UserInfoPage: React.FC<UserInfoPageProps> = ({
                             <AvatarImage
                                 gender="male"
                                 age={gender === 'male' ? age : 35}
-                                className="w-24 h-32 object-cover rounded-lg"
+                                className="w-20 h-24 sm:w-24 sm:h-32 object-cover rounded-lg"
                             />
-                            <p className={`text-center mt-2 text-sm font-medium ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                            <p className={`text-center mt-1 sm:mt-2 text-xs sm:text-sm font-medium ${isDark ? 'text-white' : 'text-slate-900'}`}>
                                 男性
                             </p>
                         </div>
@@ -352,7 +352,7 @@ export const UserInfoPage: React.FC<UserInfoPageProps> = ({
                         {/* 女性 */}
                         <div
                             onClick={() => setGender('female')}
-                            className={`cursor-pointer transition-all duration-300 rounded-lg p-3 ${gender === 'female'
+                            className={`cursor-pointer transition-all duration-300 rounded-lg p-2 sm:p-3 ${gender === 'female'
                                 ? isDark
                                     ? 'border-4 border-pink-400 bg-pink-500/30 shadow-lg shadow-pink-500/50'
                                     : 'border-4 border-pink-600 bg-pink-100 shadow-lg shadow-pink-500/30'
@@ -364,9 +364,9 @@ export const UserInfoPage: React.FC<UserInfoPageProps> = ({
                             <AvatarImage
                                 gender="female"
                                 age={gender === 'female' ? age : 35}
-                                className="w-24 h-32 object-cover rounded-lg"
+                                className="w-20 h-24 sm:w-24 sm:h-32 object-cover rounded-lg"
                             />
-                            <p className={`text-center mt-2 text-sm font-medium ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                            <p className={`text-center mt-1 sm:mt-2 text-xs sm:text-sm font-medium ${isDark ? 'text-white' : 'text-slate-900'}`}>
                                 女性
                             </p>
                         </div>
@@ -375,8 +375,8 @@ export const UserInfoPage: React.FC<UserInfoPageProps> = ({
 
                 {/* 年龄滑块 */}
                 <div>
-                    <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
-                        年龄: <span className="text-xl font-bold">{age}</span>岁
+                    <label className={`block text-xs sm:text-sm font-medium mb-1.5 sm:mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                        年龄: <span className="text-lg sm:text-xl font-bold">{age}</span>岁
                     </label>
                     <div className="relative">
                         <input
@@ -401,7 +401,7 @@ export const UserInfoPage: React.FC<UserInfoPageProps> = ({
 
                 {/* 决策主题 */}
                 <div>
-                    <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                    <label className={`block text-xs sm:text-sm font-medium mb-1.5 sm:mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
                         决策主题
                     </label>
                     <div className="relative">
@@ -412,7 +412,7 @@ export const UserInfoPage: React.FC<UserInfoPageProps> = ({
                             onChange={(e) => handleTopicChange(e.target.value)}
                             onKeyDown={(e) => { if (e.key === 'Escape') setSuggestions([]); }}
                             placeholder="输入关键词,如: 财、情、房..."
-                            className={`w-full px-4 py-2.5 rounded-lg border-2 transition-colors text-sm ${isDark
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg border-2 transition-colors text-sm ${isDark
                                 ? 'bg-slate-800 border-slate-700 focus:border-indigo-500 text-white placeholder-slate-500'
                                 : 'bg-white border-slate-200 focus:border-slate-800 text-slate-900 placeholder-slate-400'
                                 } outline-none`}
@@ -454,7 +454,7 @@ export const UserInfoPage: React.FC<UserInfoPageProps> = ({
                 <button
                     onClick={handleSubmit}
                     disabled={!canSubmit}
-                    className={`w-full px-6 py-3 rounded-lg font-medium transition-all ${canSubmit
+                    className={`w-full px-6 py-2.5 sm:py-3 rounded-lg font-medium transition-all ${canSubmit
                         ? isDark
                             ? 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/50'
                             : 'bg-slate-900 hover:bg-slate-800 text-white shadow-lg'
