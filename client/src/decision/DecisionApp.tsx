@@ -389,38 +389,38 @@ export default function DecisionApp() {
             {/* 主容器 */}
         <div className={`decision-app relative z-10 flex flex-col h-full w-full max-w-2xl mx-auto shadow-2xl border-x ${currentThemeId === 'classic' ? 'bg-white/50 border-white/60' : 'bg-slate-900/50 border-white/5'}`}>
                 {/* Header */}
-                <header className={`flex-none px-4 sm:px-6 py-4 sm:py-5 flex items-center gap-3 backdrop-blur-md sticky top-0 z-30 border-b ${currentThemeId === 'classic' ? 'bg-white/80 border-slate-100' : 'bg-slate-900/80 border-white/10 text-white'}`}>
+                <header className={`flex-none px-3 sm:px-6 py-2 sm:py-5 flex items-center gap-2 sm:gap-3 backdrop-blur-md sticky top-0 z-30 border-b ${currentThemeId === 'classic' ? 'bg-white/80 border-slate-100' : 'bg-slate-900/80 border-white/10 text-white'}`}>
                     <Link
                         to="/"
-                        className="decision-back flex-none p-2 rounded-full hover:bg-black/5 active:scale-95 transition-all"
+                        className="decision-back flex-none p-1.5 sm:p-2 rounded-full hover:bg-black/5 active:scale-95 transition-all"
                         title="返回主页面"
                         aria-label="返回主页面"
                     >
-                        <ArrowLeft size={20} />
+                        <ArrowLeft size={18} />
                     </Link>
-                    <h1 className="min-w-0 flex-1 text-base sm:text-xl font-light tracking-widest uppercase flex items-center gap-1.5 sm:gap-2 whitespace-nowrap">
+                    <h1 className="min-w-0 flex-1 text-sm sm:text-xl font-light tracking-wide sm:tracking-widest uppercase flex items-center gap-1 sm:gap-2 whitespace-nowrap">
                         测测<span className="font-bold">你的决策模型</span>
                     </h1>
-                    <div className="flex flex-none items-center gap-2 sm:gap-4">
+                    <div className="flex flex-none items-center gap-1.5 sm:gap-4">
                         <button
                             onClick={toggleTheme}
-                            className="p-2 rounded-full hover:bg-black/5 active:scale-95 transition-all"
+                            className="p-1.5 sm:p-2 rounded-full hover:bg-black/5 active:scale-95 transition-all"
                             title="切换主题"
                         >
-                            <Palette size={20} />
+                            <Palette size={18} />
                         </button>
                         <button
                             onClick={handleRestartTutorial}
-                            className="p-2 rounded-full hover:bg-black/5 active:scale-95 transition-all"
+                            className="p-1.5 sm:p-2 rounded-full hover:bg-black/5 active:scale-95 transition-all"
                             title="帮助 / 重新演示"
                         >
-                            <HelpCircle size={20} />
+                            <HelpCircle size={18} />
                         </button>
-                        <div className="flex gap-2">
+                        <div className="flex gap-1.5 sm:gap-2">
                             {Array.from({ length: MAX_SELECTIONS }).map((_, i) => (
                                 <div
                                     key={i}
-                                    className={`w-2.5 h-2.5 rounded-full transition-colors duration-300 ${i < placedCards.length ? (currentThemeId === 'classic' ? 'bg-slate-800' : 'bg-white') : (currentThemeId === 'classic' ? 'bg-slate-200' : 'bg-slate-700')}`}
+                                    className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-colors duration-300 ${i < placedCards.length ? (currentThemeId === 'classic' ? 'bg-slate-800' : 'bg-white') : (currentThemeId === 'classic' ? 'bg-slate-200' : 'bg-slate-700')}`}
                                 />
                             ))}
                         </div>
