@@ -8,7 +8,7 @@ import { requireUser, type AuthedRequest } from "../middleware/auth.js";
 export const decisionRouter = Router();
 
 function writeLocalMock(res: import("express").Response) {
-  const text = "### 本地测试解读\n\n这是本地模拟结果。请求未发送到外部模型服务，但已验证统一点数扣减与流式展示。";
+  const text = "### 本地测试解读\n\n这是本地模拟结果。请求未发送到外部决策投射服务，但已验证统一点数扣减与流式展示。";
   res.set({ "Content-Type": "text/event-stream; charset=utf-8", "Cache-Control": "no-cache, no-transform", "X-Accel-Buffering": "no" });
   res.write(`data: ${JSON.stringify({ type: "meta", model: "local", modelDetail: "mock", promptVersion: "current" })}\n\n`);
   for (const chunk of text.match(/.{1,12}/g) ?? []) res.write(`data: ${JSON.stringify({ type: "content", text: chunk })}\n\n`);

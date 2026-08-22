@@ -1,4 +1,4 @@
-/** Plum 服务端决策接口客户端。浏览器不再持有或发送模型密钥。 */
+/** Plum 服务端决策接口客户端。浏览器不再持有或发送服务密钥。 */
 
 export interface DecisionInterpretRequest {
     cardContext: Array<{
@@ -36,7 +36,7 @@ export interface InterpretResult {
 }
 
 /**
- * 通过 Plum 服务端调用 AI 解读接口。服务端会在建立模型流后扣除统一点数。
+ * 通过 Plum 服务端调用 AI 解读接口。服务端会在建立解读流后扣除统一点数。
  * @param request 解读请求数据(包含完整的卡牌上下文)
  * @returns AI 解读结果
  */
@@ -56,7 +56,7 @@ export async function callDecisionInterpret(
             body: JSON.stringify(request),
             credentials: 'include',
         });
-        console.log(`[Timer] ${Date.now() - startTime}ms - 📥 收到服务端模型响应 Header，状态: ${response.status}`);
+        console.log(`[Timer] ${Date.now() - startTime}ms - 📥 收到服务端响应 Header，状态: ${response.status}`);
 
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
@@ -91,9 +91,9 @@ export async function callDecisionInterpret(
 
             for (const line of lines) {
                 const trimmedLine = line.trim();
-                // 兼容不同平台的模型返回 SSE 前缀
+                // 兼容不同平台返回的 SSE 前缀
                 if (!trimmedLine || (!trimmedLine.startsWith('data:') && !trimmedLine.startsWith('data: '))) {
-                    continue; // 有些大模型返回空字符串的错误数据，统统忽略
+                    continue; // 忽略部分平台返回的空字符串错误数据
                 }
                 const prefixLen = trimmedLine.startsWith('data: ') ? 6 : 5;
                 const dataStr = trimmedLine.slice(prefixLen);
@@ -107,7 +107,7 @@ export async function callDecisionInterpret(
                             modelDetail: data.modelDetail,
                             promptVersion: data.promptVersion
                         };
-                        console.log(`[Timer] ${Date.now() - startTime}ms - ✅ 收到模型元信息 | 通道: ${meta.model}`);
+                        console.log(`[Timer] ${Date.now() - startTime}ms - ✅ 收到服务元信息 | 通道: ${meta.model}`);
                         if (onProgress) onProgress('', meta);
                     } else if (data.type === 'content') {
                         if (isFirstByte) {
@@ -143,6 +143,6 @@ export async function callDecisionInterpret(
             throw error;
         }
 
-        throw new Error('调用决策模型失败，请检查网络连接');
+        throw new Error('调用决策投射失败，请检查网络连接');
     }
 }

@@ -139,7 +139,7 @@ export function spendForDecision(db: Db, userId: number) {
     const { points } = db.prepare(`SELECT points FROM users WHERE id = ?`).get(userId) as { points: number };
     db.prepare(
       `INSERT INTO point_transactions (user_id, type, amount, balance_after, note)
-       VALUES (?, 'decision_spend', -1, ?, '决策模型解读')`,
+       VALUES (?, 'decision_spend', -1, ?, '决策投射解读')`,
     ).run(userId, points);
     return { pointsRemaining: points };
   })();

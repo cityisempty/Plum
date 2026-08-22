@@ -170,7 +170,7 @@ export const PlacementGrid: React.FC<PlacementGridProps> = ({
                 onClick={onSubmitReading}
                 className={`w-full py-4 rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 font-bold tracking-widest uppercase text-sm ${theme.id === 'modern' ? 'bg-indigo-600 text-white' : 'bg-slate-900 text-white'}`}
               >
-                <Sparkles className="w-5 h-5 text-amber-300" /> 分析决策模型
+                <Sparkles className="w-5 h-5 text-amber-300" /> 分析决策投射
               </button>
             ) : (
               <div className="text-center text-slate-400 text-sm">放置所有卡牌以继续</div>

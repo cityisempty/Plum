@@ -39,7 +39,7 @@ export const TutorialOverlay: React.FC<TutorialOverlayProps> = ({ onClose, theme
                 <ol className="list-decimal list-inside space-y-2 text-sm">
                     <li>长按卡牌以选择并进入摆放模式。</li>
                     <li>在九宫格中点击空位放置卡牌，使用下方按钮翻转或确认。</li>
-                    <li>只需三张卡牌就能对您的决策模型进行判断</li>
+                    <li>只需三张卡牌就能对您的决策投射进行判断</li>
                     <li>开始使用就意味着您已阅读并同意用户协议</li>
                 </ol>
                 <p className="text-xs text-orange-500 mt-2">

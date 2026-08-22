@@ -68,7 +68,7 @@ function TermsContent() {
     return (
         <div className="space-y-6 text-sm leading-relaxed">
             <section>
-                <h3 className="text-lg font-semibold mb-3">欢迎使用心点通决策模型测试服务</h3>
+                <h3 className="text-lg font-semibold mb-3">欢迎使用心点通决策投射评测服务</h3>
                 <p>
                     在使用本服务之前,请您仔细阅读并理解本用户协议。使用本服务即表示您同意接受本协议的所有条款和条件。
                 </p>
@@ -77,13 +77,13 @@ function TermsContent() {
             <section>
                 <h3 className="text-base font-semibold mb-2">1. 服务说明</h3>
                 <p className="mb-2">
-                    1.1 本服务是一个基于AI技术的决策模型测试工具,通过沙盘游戏的方式帮助用户探索自己的决策思维模式。
+                    1.1 本服务是一个基于AI技术的决策投射评测工具,通过沙盘游戏的方式帮助用户探索自己的决策思维模式。
                 </p>
                 <p className="mb-2">
                     1.2 本服务<strong className="text-orange-500">仅供娱乐和自我探索使用</strong>,不具有任何专业心理咨询、医疗诊断或决策指导的性质。
                 </p>
                 <p>
-                    1.3 本服务的所有输出结果均由AI模型生成,不代表任何专业意见或建议。
+                    1.3 本服务的所有输出结果均由AI生成,不代表任何专业意见或建议。
                 </p>
             </section>
 

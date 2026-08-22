@@ -1,4 +1,18 @@
 import { FormEvent, useEffect, useState } from "react";
+import {
+  Activity,
+  ArrowUpRight,
+  CircleDollarSign,
+  Database,
+  LayoutDashboard,
+  LogOut,
+  RefreshCw,
+  Search,
+  Settings2,
+  ShieldCheck,
+  Users,
+  WalletCards,
+} from "lucide-react";
 import { api } from "../lib/api";
 
 type Row = { id: number; email: string; username: string; points: number; created_at: number; disabled_at: number | null };
@@ -107,58 +121,81 @@ export function AdminPage() {
 
   if (!authed) {
     return (
-      <section className="admin-login">
-        <p className="admin-kicker">PLUM / PRIVATE CONSOLE</p>
-        <h2>案 牍</h2>
-        <p className="admin-subtitle">统一用户、点数与决策模型的内部后台</p>
-        <form onSubmit={login}>
-          <div className="field"><label>案名</label><input value={username} onChange={(e) => setUsername(e.target.value)} autoComplete="username" /></div>
-          <div className="field"><label>密语</label><input type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" /></div>
-          <div className="field"><label>校验题</label><div className="challenge-row"><span>{challengeQuestion || "加载中…"}</span><button className="btn-ghost btn-small" type="button" onClick={() => loadChallenge()} disabled={busy}>换一题</button></div></div>
-          <div className="field"><label>答案</label><input inputMode="numeric" value={challengeAnswer} onChange={(e) => setChallengeAnswer(e.target.value.replace(/[^0-9]/g, ""))} autoComplete="off" /></div>
-          {err ? <p className="err">{err}</p> : null}
-          <button className="btn-cinnabar" disabled={busy}>进入后台</button>
-        </form>
+      <section className="admin-login-screen">
+        <div className="admin-login-brand"><span className="admin-logo">P</span><span>PLUM <b>OPS</b></span></div>
+        <div className="admin-login-card">
+          <div className="admin-login-intro">
+            <span className="admin-login-icon"><ShieldCheck size={22} /></span>
+            <p className="admin-kicker">SECURE WORKSPACE</p>
+            <h2>欢迎回来</h2>
+            <p className="admin-subtitle">登录 Plum 管理工作台，查看业务运行状态。</p>
+          </div>
+          <form onSubmit={login}>
+            <div className="field"><label>管理员账号</label><input value={username} onChange={(e) => setUsername(e.target.value)} autoComplete="username" /></div>
+            <div className="field"><label>密码</label><input type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" /></div>
+            <div className="field"><label>安全校验</label><div className="challenge-row"><span>{challengeQuestion || "加载中…"}</span><button className="admin-text-button" type="button" onClick={() => loadChallenge()} disabled={busy}><RefreshCw size={14} />换一题</button></div></div>
+            <div className="field"><label>校验答案</label><input inputMode="numeric" value={challengeAnswer} onChange={(e) => setChallengeAnswer(e.target.value.replace(/[^0-9]/g, ""))} autoComplete="off" /></div>
+            {err ? <p className="err">{err}</p> : null}
+            <button className="admin-primary-button" disabled={busy}>进入工作台 <ArrowUpRight size={16} /></button>
+          </form>
+        </div>
+        <p className="admin-login-foot">Private operations console · Plum Node</p>
       </section>
     );
   }
 
   return (
     <section className="admin-console">
-      <header className="admin-header">
-        <div><p className="admin-kicker">PLUM / PRIVATE CONSOLE</p><h2>案 牍</h2><p className="admin-subtitle">统一管理用户、点数与模型服务</p></div>
-        <button className="btn-ghost" type="button" onClick={async () => { await api.adminLogout(); setAuthed(false); await loadChallenge().catch(() => undefined); }}>退出</button>
-      </header>
+      <aside className="admin-sidebar">
+        <div className="admin-brand"><span className="admin-logo">P</span><span>PLUM <b>OPS</b></span></div>
+        <div className="admin-sidebar-label">WORKSPACE</div>
+        <nav className="admin-nav" aria-label="后台导航">
+          <a className="is-active" href="#overview"><LayoutDashboard size={17} />概览</a>
+          <a href="#users"><Users size={17} />用户账户</a>
+          <a href="#model"><Settings2 size={17} />决策投射服务</a>
+          <a href="#ledger"><WalletCards size={17} />点数账本</a>
+        </nav>
+        <div className="admin-sidebar-spacer" />
+        <div className="admin-sidebar-status"><span className="admin-live-dot" />系统运行正常<span>v1.0</span></div>
+        <button className="admin-sidebar-logout" type="button" onClick={async () => { await api.adminLogout(); setAuthed(false); await loadChallenge().catch(() => undefined); }}><LogOut size={16} />退出登录</button>
+      </aside>
 
-      {err ? <p className="err">{err}</p> : null}
-      <div className="admin-stats">
-        <article><span>账户</span><strong>{number(overview?.users ?? 0)}</strong><small>已建立用户</small></article>
-        <article><span>统一余点</span><strong>{number(overview?.points ?? 0)}</strong><small>所有账户合计</small></article>
-        <article><span>数字投射</span><strong>{number(overview?.plumSpends ?? 0)}</strong><small>累计消费次数</small></article>
-        <article><span>决策模型</span><strong>{number(overview?.decisionSpends ?? 0)}</strong><small>累计消费次数</small></article>
-      </div>
+      <main className="admin-main">
+        <header className="admin-topbar"><div className="admin-breadcrumb"><span>PLUM OPS</span><i>/</i><b>工作台</b></div><div className="admin-topbar-meta"><span className="admin-live-dot" />服务端直连<span className="admin-avatar">A</span></div></header>
+        <div className="admin-main-inner">
+          <header className="admin-heading" id="overview"><div><p className="admin-kicker">OVERVIEW / 运营总览</p><h1>工作台</h1><p>实时查看 Plum 的账户、点数和决策投射服务运行状态。</p></div><div className="admin-heading-date"><Activity size={16} /><span>实时数据</span><b>{new Date().toLocaleDateString("zh-CN")}</b></div></header>
 
-      <div className="admin-grid">
-        <section className="admin-panel admin-model-panel">
-          <div className="admin-panel-head"><div><p className="admin-kicker">MODEL ROOM</p><h3>模型服务</h3></div><span className={overview?.model.localMock ? "status-pill is-warn" : "status-pill"}>{overview?.model.localMock ? "本地模拟" : "服务端直连"}</span></div>
-          <p className="admin-panel-copy">决策模型由 Plum Node 服务端直接调用。密钥不进入浏览器，也不再使用独立访问凭证。</p>
-          <div className="model-list">{(overview?.model.models ?? []).map((model) => <div className="model-row" key={model.id}><span>{model.id}</span><b>{model.name}</b><em className={model.configured ? "is-ready" : ""}>{model.configured ? "已配置" : "未配置"}</em></div>)}</div>
-          <p className="admin-panel-foot">调用顺序：{overview?.model.priority.join(" → ") || "未设置"}</p>
-        </section>
+          {err ? <p className="err admin-error">{err}</p> : null}
+          <div className="admin-stats">
+            <article><div className="admin-stat-icon is-blue"><Users size={18} /></div><span>账户总数</span><strong>{number(overview?.users ?? 0)}</strong><small><ArrowUpRight size={13} />已建立用户</small></article>
+            <article><div className="admin-stat-icon is-green"><CircleDollarSign size={18} /></div><span>统一余点</span><strong>{number(overview?.points ?? 0)}</strong><small><ArrowUpRight size={13} />所有账户合计</small></article>
+            <article><div className="admin-stat-icon is-orange"><WalletCards size={18} /></div><span>数字投射</span><strong>{number(overview?.plumSpends ?? 0)}</strong><small><ArrowUpRight size={13} />累计消费次数</small></article>
+            <article><div className="admin-stat-icon is-purple"><Activity size={18} /></div><span>决策投射</span><strong>{number(overview?.decisionSpends ?? 0)}</strong><small><ArrowUpRight size={13} />累计消费次数</small></article>
+          </div>
 
-        <section className="admin-panel">
-          <div className="admin-panel-head"><div><p className="admin-kicker">POINT LEDGER</p><h3>统一点数</h3></div><span className="status-pill">两种应用共用</span></div>
-          <p className="admin-panel-copy">数字投射和决策模型均从同一账户余额原子扣减，充值也只需维护这一处。</p>
-          <div className="ledger-key"><span><i className="dot dot-plum" />数字投射</span><span><i className="dot dot-decision" />决策模型</span><span><i className="dot dot-recharge" />管理员充值</span></div>
-        </section>
-      </div>
+          <section className="admin-panel admin-users-panel" id="users">
+            <div className="admin-panel-head"><div><span className="admin-section-icon is-blue"><Users size={16} /></span><div><p className="admin-kicker">ACCOUNT DIRECTORY</p><h3>用户账户</h3></div></div><span className="admin-count">{number(items.length)} 位用户</span></div>
+            <div className="admin-search"><label htmlFor="admin-user-search">检索账户</label><div className="admin-search-input"><Search size={16} /><input id="admin-user-search" value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") load(); }} placeholder="搜索用户名或邮箱" /></div><button className="admin-secondary-button" type="button" onClick={() => load()}>查找</button></div>
+            <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>用户</th><th>邮箱</th><th>统一余点</th><th>状态</th><th>注册日期</th><th>操作</th></tr></thead><tbody>{items.map((user) => <tr key={user.id} className={user.disabled_at ? "is-disabled" : ""}><td><div className="admin-user-cell"><span className="admin-user-avatar">{user.username.slice(0, 1).toUpperCase()}</span><div><strong>{user.username}</strong><small>UID #{user.id}</small></div></div></td><td>{user.email || "微信账户"}</td><td><strong className="points-number">{number(user.points)}</strong><small className="table-unit">点</small></td><td>{user.disabled_at ? <span className="status-pill is-warn"><i />已禁用</span> : <span className="status-pill"><i />正常</span>}</td><td>{new Date(user.created_at * 1000).toLocaleDateString("zh-CN")}</td><td><div className="admin-actions"><button className="admin-table-button is-primary" type="button" disabled={busy} onClick={() => openRecharge(user)}>充值</button><button className="admin-table-button" type="button" disabled={busy} onClick={() => toggleUser(user)}>{user.disabled_at ? "启用" : "禁用"}</button><button className="admin-table-button is-danger" type="button" disabled={busy} onClick={() => removeUser(user)}>删除</button></div></td></tr>)}</tbody></table></div>
+          </section>
 
-      <section className="admin-panel admin-users-panel">
-        <div className="admin-panel-head"><div><p className="admin-kicker">ACCOUNT LEDGER</p><h3>用户账户</h3></div><span className="admin-count">{number(items.length)} / 当前页</span></div>
-        <div className="admin-search"><label>检索账户</label><input value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") load(); }} placeholder="用户名或邮箱" /><button className="btn-ghost" type="button" onClick={() => load()}>查阅</button></div>
-        <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>号</th><th>名</th><th>邮</th><th>统一余点</th><th>状态</th><th>入档时间</th><th>操作</th></tr></thead><tbody>{items.map((user) => <tr key={user.id} className={user.disabled_at ? "is-disabled" : ""}><td>#{user.id}</td><td>{user.username}</td><td>{user.email || "微信账户"}</td><td><strong className="points-number">{user.points}</strong></td><td>{user.disabled_at ? <span className="status-pill is-warn">已禁用</span> : <span className="status-pill">正常</span>}</td><td>{new Date(user.created_at * 1000).toLocaleDateString("zh-CN")}</td><td><div className="admin-actions"><button className="btn-ghost btn-small" type="button" disabled={busy} onClick={() => openRecharge(user)}>添点</button><button className="btn-ghost btn-small" type="button" disabled={busy} onClick={() => toggleUser(user)}>{user.disabled_at ? "启用" : "禁用"}</button><button className="btn-danger btn-small" type="button" disabled={busy} onClick={() => removeUser(user)}>删除</button></div></td></tr>)}</tbody></table></div>
-      </section>
-      {rechargeTarget ? <div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.currentTarget === event.target) setRechargeTarget(null); }}><form className="admin-modal" onSubmit={submitRecharge}><p className="admin-kicker">POINT LEDGER / MANUAL ENTRY</p><h3>为 {rechargeTarget.username} 充值</h3><p className="admin-panel-copy">当前余额：<strong className="points-number">{rechargeTarget.points}</strong> 点。充值会立即同时用于数字投射和决策模型。</p><div className="field"><label>充值点数</label><input type="number" min="1" step="1" value={rechargeAmount} onChange={(e) => setRechargeAmount(e.target.value)} autoFocus /></div><div className="field"><label>备注</label><input value={rechargeNote} onChange={(e) => setRechargeNote(e.target.value)} maxLength={120} /></div><div className="modal-actions"><button className="btn-ghost" type="button" onClick={() => setRechargeTarget(null)}>取消</button><button className="btn-cinnabar" type="submit" disabled={busy}>确认充值</button></div></form></div> : null}
+          <div className="admin-grid">
+            <section className="admin-panel admin-model-panel" id="model">
+                <div className="admin-panel-head"><div><span className="admin-section-icon"><Database size={16} /></span><div><p className="admin-kicker">DECISION PROJECTION SERVICE</p><h3>决策投射服务</h3></div></div><span className={overview?.model.localMock ? "status-pill is-warn" : "status-pill"}><i />{overview?.model.localMock ? "本地模拟" : "服务端直连"}</span></div>
+              <p className="admin-panel-copy">决策投射由 Plum Node 服务端直接调用。密钥不进入浏览器，也不再使用独立访问凭证。</p>
+              <div className="model-list">{(overview?.model.models ?? []).map((model) => <div className="model-row" key={model.id}><span>{model.id}</span><b>{model.name}</b><em className={model.configured ? "is-ready" : ""}><i />{model.configured ? "已配置" : "未配置"}</em></div>)}</div>
+              <p className="admin-panel-foot">调用顺序：{overview?.model.priority.join(" → ") || "未设置"}</p>
+            </section>
+
+            <section className="admin-panel" id="ledger">
+              <div className="admin-panel-head"><div><span className="admin-section-icon is-green"><WalletCards size={16} /></span><div><p className="admin-kicker">POINT LEDGER</p><h3>统一点数</h3></div></div><span className="status-pill">两种应用共用</span></div>
+                <p className="admin-panel-copy">数字投射和决策投射均从同一账户余额原子扣减，充值也只需维护这一处。</p>
+                <div className="ledger-key"><span><i className="dot dot-plum" />数字投射 <b>消费</b></span><span><i className="dot dot-decision" />决策投射 <b>消费</b></span><span><i className="dot dot-recharge" />管理员充值 <b>收入</b></span></div>
+            </section>
+          </div>
+        </div>
+      </main>
+      {rechargeTarget ? <div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.currentTarget === event.target) setRechargeTarget(null); }}><form className="admin-modal" onSubmit={submitRecharge}><div className="admin-modal-heading"><span className="admin-section-icon is-green"><CircleDollarSign size={17} /></span><div><p className="admin-kicker">POINT LEDGER / MANUAL ENTRY</p><h3>为 {rechargeTarget.username} 充值</h3></div></div><p className="admin-panel-copy">当前余额：<strong className="points-number">{number(rechargeTarget.points)}</strong> 点。充值会立即同时用于数字投射和决策投射。</p><div className="field"><label>充值点数</label><input type="number" min="1" step="1" value={rechargeAmount} onChange={(e) => setRechargeAmount(e.target.value)} autoFocus /></div><div className="field"><label>备注</label><input value={rechargeNote} onChange={(e) => setRechargeNote(e.target.value)} maxLength={120} /></div><div className="modal-actions"><button className="admin-secondary-button" type="button" onClick={() => setRechargeTarget(null)}>取消</button><button className="admin-primary-button" type="submit" disabled={busy}>确认充值 <ArrowUpRight size={16} /></button></div></form></div> : null}
     </section>
   );
 }

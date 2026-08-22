@@ -40,7 +40,7 @@ export function buildDecisionPrompt(input: DecisionRequest) {
 - 品项含义：${clean(card.cardMeaning)}
 - 核心分析逻辑：${clean(logic || "按常规象征意义分析")}`;
   }).join("\n\n");
-  return `# 卡牌决策模式分析系统\n\n你是一位懂人心的决策解读师。请通过内心情节（无意识驱动）、现实情境（当前约束）、思维模式（长期决策习惯），帮助用户看清自己为什么这么选、为什么纠结、问题真正在哪里。语言像朋友聊天，具体、温和、直抵要害，不要声称这是科学诊断。\n\n分析权重：序列 #1 占 70%，#2 占 20%，#3 占 10%。必须优先使用“核心分析逻辑”，再结合品项含义、摆放位置、元素属性和正逆位。\n${user}\n## 卡牌信息\n${cards}\n\n## 输出要求\n请输出一份结构清晰的中文报告，包含：\n1. 一句话洞察\n2. 三张牌分别揭示的心理动力（按 70/20/10 权重展开）\n3. 当前真正的矛盾与盲点\n4. 可执行的决策建议（给出 3 个具体行动）\n5. 温和但明确的收束。\n不要复述输入，不要输出内部推理过程，使用 Markdown。`;
+  return `# 卡牌决策投射分析系统\n\n你是一位懂人心的决策解读师。请通过内心情节（无意识驱动）、现实情境（当前约束）、思维模式（长期决策习惯），帮助用户看清自己为什么这么选、为什么纠结、问题真正在哪里。语言像朋友聊天，具体、温和、直抵要害，不要声称这是科学诊断。\n\n分析权重：序列 #1 占 70%，#2 占 20%，#3 占 10%。必须优先使用“核心分析逻辑”，再结合品项含义、摆放位置、元素属性和正逆位。\n${user}\n## 卡牌信息\n${cards}\n\n## 输出要求\n请输出一份结构清晰的中文报告，包含：\n1. 一句话洞察\n2. 三张牌分别揭示的心理动力（按 70/20/10 权重展开）\n3. 当前真正的矛盾与盲点\n4. 可执行的决策建议（给出 3 个具体行动）\n5. 温和但明确的收束。\n不要复述输入，不要输出内部推理过程，使用 Markdown。`;
 }
 
 function openAiUrl(base: string) {
@@ -60,7 +60,7 @@ async function openAi(input: DecisionRequest, provider: "openai" | "custom", api
 export async function createDecisionUpstream(input: DecisionRequest): Promise<DecisionUpstream> {
   const requested = input.model && ["gemini", "openai", "custom"].includes(input.model) ? input.model : "";
   const priority = (requested ? [requested] : config.modelPriority.split(",")).map((x) => x.trim()).filter(Boolean);
-  let lastError = "没有可用的模型配置";
+  let lastError = "没有可用的决策投射服务配置";
   for (const provider of priority) {
     try {
       if (provider === "gemini" && config.geminiApiKey) {
@@ -80,10 +80,10 @@ export async function createDecisionUpstream(input: DecisionRequest): Promise<De
       } else if (provider === "custom" && config.customApiKey && config.customBaseUrl) {
         const result = await openAi(input, "custom", config.customApiKey, config.customBaseUrl, config.customModel);
         if (result.response.ok && result.response.body) return result;
-        lastError = `自定义模型返回 ${result.response.status}`;
+        lastError = `自定义决策投射服务返回 ${result.response.status}`;
       }
     } catch (error) {
-      lastError = error instanceof Error ? error.message : "模型请求失败";
+      lastError = error instanceof Error ? error.message : "决策投射请求失败";
     }
   }
   throw new Error(lastError);

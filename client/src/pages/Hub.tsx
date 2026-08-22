@@ -13,7 +13,7 @@ const APPS = [
   },
   {
     id: "decision",
-    name: "决策模型评测",
+    name: "决策投射评测",
     subtitle: "九宫格卡牌 · 看见你的选择",
     to: "/apps/decision",
     seal: "决",
@@ -32,7 +32,7 @@ export function HubPage() {
 
   return (
     <section className="hub">
-      <header className="hub-hero">
+      <header className={`hub-hero${user ? " is-authenticated" : ""}`}>
         {user ? (
           <>
             <div className="hub-avatar">
@@ -132,7 +132,7 @@ export function HubPage() {
               <button type="button" aria-label="关闭" onClick={() => setShowPurchase(false)}>×</button>
             </header>
             <div className="hub-purchase-body">
-              <p>数字投射解码与决策模型共用同一份次数。</p>
+              <p>数字投射解码与决策投射共用同一份次数。</p>
               <p>请联系管理员购买或充值。完成后，次数会直接加到当前账户，无需再输入额外访问凭证。</p>
               <button className="btn-cinnabar" type="button" onClick={() => setShowPurchase(false)}>我知道了</button>
             </div>

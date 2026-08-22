@@ -74,7 +74,7 @@ function migrateUsers(db: Database.Database) {
   db.pragma("foreign_keys = ON");
 }
 
-/** 为已存在的数据库补充决策模型消费类型。SQLite 无法原地修改 CHECK 约束。 */
+/** 为已存在的数据库补充决策投射消费类型。SQLite 无法原地修改 CHECK 约束。 */
 function migratePointTransactions(db: Database.Database) {
   const table = db
     .prepare(`SELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'point_transactions'`)

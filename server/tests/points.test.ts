@@ -55,7 +55,7 @@ describe("points", () => {
     assert.equal(n.n, 0);
   });
 
-  it("决策模型消费与投射使用同一份点数", () => {
+  it("决策投射消费与数字投射使用同一份点数", () => {
     const db = openDatabase(":memory:");
     const user = registerUser(db, {
       email: "a@b.c",

@@ -1,6 +1,6 @@
 # 数字投射解码
 
-统一入口的解读应用 SPA。个人中心可挂多个应用：数字投射解码（Plum）和九宫格卡牌决策模型（Decision）。两个应用共用同一份账户点数，首页统一显示余额和购买入口；每次完整体验扣 1 点。
+统一入口的解读应用 SPA。个人中心可挂多个应用：数字投射解码（Plum）和九宫格卡牌决策投射（Decision）。两个应用共用同一份账户点数，首页统一显示余额和购买入口；每次完整体验扣 1 点。
 
 ## 本地运行
 
@@ -13,7 +13,7 @@ cd client && npm install && npm run dev
 
 - 前端：http://localhost:5173 （个人中心）
 - 起卦：http://localhost:5173/apps/plum
-- 决策模型：http://localhost:5173/apps/decision
+- 决策投射：http://localhost:5173/apps/decision
 - 后台：http://localhost:5173/admin（`.env` 里的管理员账密）
 - 本地默认 `WECHAT_MOCK=true`：点「微信入」会立刻建档并赠 100 点，无需真实公众号
 
@@ -60,9 +60,9 @@ JWT_SECRET=（长随机串）
 npm test --prefix server
 ```
 
-## 决策模型配置
+## 决策投射服务配置
 
-决策模型由 Plum Node 服务端直接调用，浏览器不再持有模型访问凭据。模型密钥只配置在 `server/.env`，并可在独立 `/admin` 后台查看配置状态：
+决策投射由 Plum Node 服务端直接调用，浏览器不再持有服务访问凭据。服务密钥只配置在 `server/.env`，并可在独立 `/admin` 后台查看配置状态：
 
 ```
 MODEL_PRIORITY=gemini,openai,custom
@@ -77,11 +77,11 @@ CUSTOM_MODEL=gpt-3.5-turbo
 DECISION_LOCAL_MOCK=false
 ```
 
-开发环境默认 `DECISION_LOCAL_MOCK=true`，会返回流式模拟结果，同时验证统一点数扣减；无需配置外部模型或启动额外服务。生产环境设为 `false` 并至少配置一个模型。决策模型资源位于 `client/src/decision`。
+开发环境默认 `DECISION_LOCAL_MOCK=true`，会返回流式模拟结果，同时验证统一点数扣减；无需配置外部决策投射服务或启动额外服务。生产环境设为 `false` 并至少配置一个服务。决策投射资源位于 `client/src/decision`。
 
 ## 管理后台说明
 
-后台只保留单一管理员权限，不提供多级管理员。模型密钥和模型顺序仍由 `server/.env` 控制，后台只展示“已配置/未配置”和调用顺序，不会把密钥写入数据库或发送到浏览器。
+后台只保留单一管理员权限，不提供多级管理员。服务密钥和调用顺序仍由 `server/.env` 控制，后台只展示“已配置/未配置”和调用顺序，不会把密钥写入数据库或发送到浏览器。
 
 管理员可以在统一用户账户页：
 

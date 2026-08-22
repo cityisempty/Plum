@@ -399,7 +399,7 @@ export default function DecisionApp() {
                         <ArrowLeft size={18} />
                     </Link>
                     <h1 className="min-w-0 flex-1 text-sm sm:text-xl font-light tracking-wide sm:tracking-widest uppercase flex items-center gap-1 sm:gap-2 whitespace-nowrap">
-                        测测<span className="font-bold">你的决策模型</span>
+                        测测<span className="font-bold">你的决策投射</span>
                     </h1>
                     <div className="flex flex-none items-center gap-1.5 sm:gap-4">
                         <button
@@ -432,7 +432,7 @@ export default function DecisionApp() {
                     <main className="flex-1 flex items-center justify-center p-6">
                         <div className="text-center space-y-6">
                             <div className={`text-4xl font-light tracking-widest ${currentThemeId === 'classic' ? 'text-slate-800' : 'text-white'}`}>
-                                决策模式评测
+                                决策投射评测
                             </div>
                             <div className={`text-sm ${currentThemeId === 'classic' ? 'text-slate-500' : 'text-slate-400'}`}>
                                 正在加载...
