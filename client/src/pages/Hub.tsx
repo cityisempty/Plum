@@ -85,11 +85,7 @@ export function HubPage() {
             className="hub-app"
             type="button"
             onClick={() => {
-              if (!user) {
-                api.wechatStart(app.to);
-                return;
-              }
-              nav(app.to);
+              nav(app.to, user ? undefined : { state: { next: app.to } });
             }}
           >
             <span className="hub-app-topline">

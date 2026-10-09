@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ALL_CARDS, MAX_SELECTIONS } from './constants';
 import { AppPhase, PlacedCard, ThemeId } from './types';
 import { CardView } from './components/CardView';
@@ -18,11 +18,11 @@ import { UserInfoPage, UserInfo } from './components/UserInfoPage';
 import { imagePreloader } from './services/imagePreloader';
 import { ImageLoadingOverlay } from './components/ImageLoadingOverlay';
 import { PolicyDialog } from './components/PolicyDialog';
-import { api } from '../lib/api';
 import { useAuth } from '../lib/auth';
 
 export default function DecisionApp() {
-    const { user, loading, setUser } = useAuth();
+    const { user, setUser } = useAuth();
+    const navigate = useNavigate();
     const [phase, setPhase] = useState<AppPhase>(AppPhase.WELCOME);
     const [placedCards, setPlacedCards] = useState<PlacedCard[]>([]);
     const [activeCardId, setActiveCardId] = useState<string | null>(null);
@@ -111,10 +111,6 @@ export default function DecisionApp() {
         }
     }, []);
 
-    useEffect(() => {
-        if (!loading && !user) api.wechatStart('/apps/decision');
-    }, [loading, user]);
-
     const handleCloseTutorial = () => {
         setShowTutorial(false);
         localStorage.setItem('hasSeenTutorial', 'true');
@@ -154,7 +150,7 @@ export default function DecisionApp() {
 
     const handleSubmit = async () => {
         if (!user) {
-            api.wechatStart('/apps/decision');
+            navigate('/login', { state: { next: '/apps/decision' } });
             return;
         }
         setPhase(AppPhase.ANALYSIS);

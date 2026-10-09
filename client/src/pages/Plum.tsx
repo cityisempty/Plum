@@ -18,7 +18,7 @@ export function PlumPage() {
     setErr("");
     if (!ready) return;
     if (!user) {
-      api.wechatStart("/apps/plum");
+      nav("/login", { state: { next: "/apps/plum" } });
       return;
     }
     setBusy(true);

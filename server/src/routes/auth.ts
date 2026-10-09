@@ -1,12 +1,11 @@
 import { Router } from "express";
 import { getDb } from "../db/client.js";
-import { config } from "../lib/config.js";
+import { config, COOKIE_USER } from "../lib/config.js";
 import { clearUserCookie, publicUser, setUserCookie } from "../lib/http.js";
-import { signUser } from "../lib/jwt.js";
+import { signUser, verifyToken, type UserClaims } from "../lib/jwt.js";
 import { hashPassword, verifyPassword } from "../lib/password.js";
 import { AppError, registerUser, upsertWechatUser } from "../lib/points.js";
 import { authorizeUrl, fetchWechatProfile, makeOauthState, parseOauthState } from "../lib/wechat.js";
-import { requireUser, type AuthedRequest } from "../middleware/auth.js";
 
 export const authRouter = Router();
 
@@ -84,14 +83,32 @@ authRouter.post("/logout", (_req, res) => {
   res.status(204).end();
 });
 
-authRouter.get("/me", requireUser, (req: AuthedRequest, res) => {
+authRouter.get("/me", (req, res) => {
+  const token = req.cookies?.[COOKIE_USER];
+  if (!token) {
+    res.json({ user: null });
+    return;
+  }
+
+  let userId: number;
+  try {
+    const claims = verifyToken(token);
+    if (claims.typ !== "user") throw new Error("invalid user token");
+    userId = (claims as UserClaims).uid;
+  } catch {
+    clearUserCookie(res);
+    res.json({ user: null });
+    return;
+  }
+
   const row = getDb()
-    .prepare(`SELECT id, email, username, points, created_at, avatar_url FROM users WHERE id = ?`)
-    .get(req.userId) as
-    | { id: number; email: string | null; username: string; points: number; created_at: number; avatar_url: string | null }
+    .prepare(`SELECT id, email, username, points, created_at, avatar_url, disabled_at FROM users WHERE id = ?`)
+    .get(userId) as
+    | { id: number; email: string | null; username: string; points: number; created_at: number; avatar_url: string | null; disabled_at: number | null }
     | undefined;
-  if (!row) {
-    res.status(401).json({ error: "UNAUTHORIZED", message: "用户不存在" });
+  if (!row || row.disabled_at) {
+    clearUserCookie(res);
+    res.json({ user: null });
     return;
   }
   res.json({ user: publicUser(row) });
