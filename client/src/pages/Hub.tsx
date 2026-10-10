@@ -6,15 +6,15 @@ import { useAuth } from "../lib/auth";
 const APPS = [
   {
     id: "plum",
-    name: "数字投射解码",
-    subtitle: "六位数字 · 投射解码",
+    name: "春风不惑 · 数字觉察AI助理",
+    subtitle: "六数一念，澄心明鉴",
     to: "/apps/plum",
     seal: "问",
   },
   {
     id: "decision",
-    name: "决策投射评测",
-    subtitle: "九宫格卡牌 · 看见你的选择",
+    name: "春风不惑 · 卡牌睿见AI助理",
+    subtitle: "三牌九宫，谋定而动",
     to: "/apps/decision",
     seal: "决",
   },
@@ -94,7 +94,7 @@ export function HubPage() {
             </span>
             <span className="hub-app-copy">
               <strong>{app.name}</strong>
-              <em>把问题变成清晰的起点</em>
+              <em>{app.subtitle}</em>
             </span>
             <span className="hub-app-action">开始解读 <b>↗</b></span>
           </button>
