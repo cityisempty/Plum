@@ -47,11 +47,11 @@ function openAiUrl(base: string) {
   return `${base.replace(/\/$/, "")}/chat/completions`;
 }
 
-async function openAi(input: DecisionRequest, provider: "openai" | "custom", apiKey: string, baseUrl: string, model: string) {
+async function openAi(input: DecisionRequest, provider: "openai" | "custom", apiKey: string, baseUrl: string, model: string, requestOptions: { temperature?: number; max_tokens?: number } = { temperature: 0.9, max_tokens: 8192 }) {
   const response = await fetch(openAiUrl(baseUrl), {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "text/event-stream", Authorization: `Bearer ${apiKey}` },
-    body: JSON.stringify({ model, messages: [{ role: "user", content: buildDecisionPrompt(input) }], temperature: 0.9, max_tokens: 8192, stream: true }),
+    body: JSON.stringify({ model, messages: [{ role: "user", content: buildDecisionPrompt(input) }], ...requestOptions, stream: true }),
     signal: AbortSignal.timeout(120_000),
   });
   return { response, provider, model };
@@ -78,7 +78,7 @@ export async function createDecisionUpstream(input: DecisionRequest): Promise<De
         if (result.response.ok && result.response.body) return result;
         lastError = `OpenAI 返回 ${result.response.status}`;
       } else if (provider === "custom" && config.customApiKey && config.customBaseUrl) {
-        const result = await openAi(input, "custom", config.customApiKey, config.customBaseUrl, config.customModel);
+        const result = await openAi(input, "custom", config.customApiKey, config.customBaseUrl, config.customModel, {});
         if (result.response.ok && result.response.body) return result;
         lastError = `自定义决策投射服务返回 ${result.response.status}`;
       }

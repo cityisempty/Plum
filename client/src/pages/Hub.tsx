@@ -6,14 +6,14 @@ import { useAuth } from "../lib/auth";
 const APPS = [
   {
     id: "plum",
-    name: "春风不惑 · 数字觉察AI助理",
+    name: "数字觉察AI助理",
     subtitle: "六数一念，澄心明鉴",
     to: "/apps/plum",
     seal: "问",
   },
   {
     id: "decision",
-    name: "春风不惑 · 卡牌睿见AI助理",
+    name: "卡牌睿见AI助理",
     subtitle: "三牌九宫，谋定而动",
     to: "/apps/decision",
     seal: "决",
